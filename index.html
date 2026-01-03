@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="description" content="م/ عادل عزت - مطور تطبيقات ومواقع ويب احترافية، حلول رقمية مخصصة للأعمال والمشاريع.">
   <meta name="keywords" content="تطوير تطبيقات, مواقع ويب, أنظمة مديونيات, إشعارات ذكية, تطوير أندرويد">
   <meta name="author" content="م/ عادل عزت">
@@ -107,6 +107,7 @@
       display: none;
       flex-direction: column;
       cursor: pointer;
+      z-index: 1001;
     }
 
     .hamburger span {
@@ -115,6 +116,18 @@
       background: var(--text-color);
       margin: 3px 0;
       transition: var(--transition);
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(45deg) translate(-5px, -6px);
     }
 
     section {
@@ -420,6 +433,14 @@
 
     /* ===== Responsive Design ===== */
     @media (max-width: 768px) {
+      .nav-container {
+        padding: 0 15px;
+      }
+
+      .logo {
+        font-size: 1.2rem;
+      }
+
       .nav-links {
         display: none;
         position: absolute;
@@ -431,6 +452,18 @@
         padding: 1rem 0;
         box-shadow: var(--shadow);
         gap: 0;
+        animation: slideDown 0.3s ease;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       .nav-links.active {
@@ -440,6 +473,11 @@
       .nav-links li {
         padding: 1rem 20px;
         text-align: center;
+        border-bottom: 1px solid #eee;
+      }
+
+      .nav-links li:last-child {
+        border-bottom: none;
       }
 
       .hamburger {
@@ -447,19 +485,31 @@
       }
 
       section {
-        padding: 60px 15px;
+        padding: 50px 15px;
       }
 
       .hero {
-        height: 90vh;
+        height: 80vh;
+        padding-top: 70px; /* Space for fixed nav */
+      }
+
+      .hero-content {
+        padding: 0 15px;
       }
 
       .hero h1 {
-        font-size: 2.5rem;
+        font-size: 2rem;
       }
 
       .hero p {
-        font-size: 1.1rem;
+        font-size: 1rem;
+        max-width: 100%;
+      }
+
+      .hero img {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
       }
 
       .services-container,
@@ -469,45 +519,99 @@
       }
 
       .service-card,
-      .testimonial-card,
+      .testimonial-card {
+        padding: 25px 20px;
+      }
+
       .project-card {
         padding: 30px 20px;
+        margin-bottom: 20px;
       }
 
-      .project-card {
-        padding: 30px;
+      .service-icon {
+        font-size: 2.5rem;
       }
 
-      .hero img {
-        width: 120px;
-        height: 120px;
-      }
-
-      h1 { font-size: 2.2rem; }
+      h1 { font-size: 2rem; }
       h2 { font-size: 1.8rem; }
-      h3 { font-size: 1.5rem; }
+      h3 { font-size: 1.4rem; }
+
+      .subtitle {
+        font-size: 1rem;
+        margin-bottom: 30px;
+      }
 
       .btn {
         padding: 12px 24px;
         font-size: 0.9rem;
       }
+
+      .testimonial-card::before {
+        font-size: 3rem;
+        top: 5px;
+        right: 15px;
+      }
+
+      .testimonial-text {
+        font-size: 1rem;
+        padding-right: 5px;
+      }
     }
 
     @media (max-width: 480px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-
-      .hero p {
-        font-size: 1rem;
-      }
-
       section {
         padding: 40px 10px;
       }
 
+      .hero {
+        height: 70vh;
+      }
+
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .hero p {
+        font-size: 0.95rem;
+      }
+
+      .hero img {
+        width: 80px;
+        height: 80px;
+      }
+
+      .service-card,
+      .testimonial-card,
+      .project-card {
+        padding: 20px 15px;
+      }
+
       .service-icon {
-        font-size: 2.5rem;
+        font-size: 2rem;
+      }
+
+      h2 { font-size: 1.5rem; }
+      h3 { font-size: 1.2rem; }
+
+      .btn {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+      }
+
+      footer {
+        padding: 20px 10px;
+        font-size: 0.85rem;
+      }
+    }
+
+    /* Touch-friendly adjustments */
+    @media (hover: none) and (pointer: coarse) {
+      .service-card:hover,
+      .project-card:hover,
+      .testimonial-card:hover,
+      .hero img:hover,
+      .btn:hover {
+        transform: none;
       }
     }
   </style>
@@ -515,7 +619,7 @@
 <body>
   <!-- Audio Greeting -->
   <audio id="greeting-audio" preload="auto">
-    <source src="https://archive.org/download/BismillahIrRahmanIrRahimMp3Download/Bismillah%20Ir%20Rahman%20Ir%20Rahim%20Mp3%20Download.mp3" type="audio/mpeg">
+    <source src="https://a.top4top.net/m_558hh0j01.mp3" type="audio/mpeg">
     المتصفح لا يدعم تشغيل الصوت.
   </audio>
 
@@ -650,7 +754,8 @@
   <script>
     AOS.init({
       duration: 1000,
-      once: true
+      once: true,
+      disable: window.innerWidth < 768 // Disable AOS on mobile for performance
     });
 
     // Simple Nav Scroll Effect
@@ -663,7 +768,16 @@
     const navLinks = document.querySelector('.nav-links');
     if (hamburger && navLinks) {
       hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
         navLinks.classList.toggle('active');
+      });
+
+      // Close menu on link click
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('active');
+          navLinks.classList.remove('active');
+        });
       });
     }
 
@@ -675,13 +789,14 @@
       }
     }, { once: true });
 
-    // Audio Greeting on Page Load
+    // Audio Greeting on Page Load - with mobile consideration
     window.addEventListener('load', function() {
       const audio = document.getElementById('greeting-audio');
-      if (audio) {
+      if (audio && !/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        // Skip autoplay on mobile to avoid issues
         audio.play().catch(e => {
           console.log('Audio autoplay failed:', e);
-          // Fallback to speech synthesis if audio fails
+          // Fallback to speech synthesis if audio fails (non-mobile)
           if ('speechSynthesis' in window) {
             const utterance = new SpeechSynthesisUtterance('بسم الله الرحمن الرحيم');
             utterance.lang = 'ar';
@@ -689,11 +804,14 @@
             speechSynthesis.speak(utterance);
           }
         });
+      } else if (audio) {
+        // On mobile, play on first touch
+        document.addEventListener('touchstart', function playAudio() {
+          audio.play().catch(e => console.log('Mobile audio play failed:', e));
+          document.removeEventListener('touchstart', playAudio);
+        }, { once: true });
       }
     });
   </script>
 </body>
 </html>
-
-
-
