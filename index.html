@@ -422,6 +422,24 @@
     @media (max-width: 768px) {
       .nav-links {
         display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--bg-white);
+        flex-direction: column;
+        padding: 1rem 0;
+        box-shadow: var(--shadow);
+        gap: 0;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links li {
+        padding: 1rem 20px;
+        text-align: center;
       }
 
       .hamburger {
@@ -459,9 +477,7 @@
       .project-card {
         padding: 30px;
       }
-    }
 
-    @media (max-width: 480px) {
       .hero img {
         width: 120px;
         height: 120px;
@@ -469,10 +485,40 @@
 
       h1 { font-size: 2.2rem; }
       h2 { font-size: 1.8rem; }
+      h3 { font-size: 1.5rem; }
+
+      .btn {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      section {
+        padding: 40px 10px;
+      }
+
+      .service-icon {
+        font-size: 2.5rem;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Audio Greeting -->
+  <audio id="greeting-audio" preload="auto">
+    <source src="https://archive.org/download/BismillahIrRahmanIrRahimMp3Download/Bismillah%20Ir%20Rahman%20Ir%20Rahim%20Mp3%20Download.mp3" type="audio/mpeg">
+    المتصفح لا يدعم تشغيل الصوت.
+  </audio>
+
   <!-- Navigation -->
   <nav>
     <div class="nav-container">
@@ -617,7 +663,7 @@
     const navLinks = document.querySelector('.nav-links');
     if (hamburger && navLinks) {
       hamburger.addEventListener('click', () => {
-        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        navLinks.classList.toggle('active');
       });
     }
 
@@ -631,11 +677,18 @@
 
     // Audio Greeting on Page Load
     window.addEventListener('load', function() {
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance('بسم الله الرحمن الرحيم');
-        utterance.lang = 'ar';
-        utterance.rate = 0.8; // بطء معتدل للنطق الواضح
-        speechSynthesis.speak(utterance);
+      const audio = document.getElementById('greeting-audio');
+      if (audio) {
+        audio.play().catch(e => {
+          console.log('Audio autoplay failed:', e);
+          // Fallback to speech synthesis if audio fails
+          if ('speechSynthesis' in window) {
+            const utterance = new SpeechSynthesisUtterance('بسم الله الرحمن الرحيم');
+            utterance.lang = 'ar';
+            utterance.rate = 0.8;
+            speechSynthesis.speak(utterance);
+          }
+        });
       }
     });
   </script>
